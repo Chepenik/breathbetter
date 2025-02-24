@@ -3,19 +3,34 @@
 @tailwind utilities;
 
 :root {
+  /* Light mode colors */
   --background: #ffffff;
   --foreground: #171717;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Force dark mode */
+:root {
+  --background: linear-gradient(to bottom, #111827, #1f2937);
+  --foreground: #ededed;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+}
+
+/* Add specific dark mode styles for the select element */
+select {
+  background-color: rgba(0, 0, 0, 0.4);
+  color: white;
+}
+
+select option {
+  background-color: #1f2937;
+  color: white;
+}
+
+html.dark body {
+  background: var(--background);
 }
