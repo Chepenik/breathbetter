@@ -6,6 +6,8 @@ import { BreathingCircle } from "@/components/BreathingCircle";
 import { BackgroundMusic } from "@/components/BackgroundMusic";
 import { patterns, type Pattern, type Phase } from "@/lib/patterns";
 import { SupportButton } from "@/components/SupportButton";
+import { Twitter, Github } from "lucide-react";
+import { SocialLinks } from "@/components/SocialLinks";
 
 export default function PracticePage() {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -127,7 +129,12 @@ export default function PracticePage() {
 
       <BackgroundMusic isPlaying={isPlaying} />
       
-      <SupportButton />
+      <SocialLinks />
+      
+      {/* Support Button - Bottom Right */}
+      <div className="fixed bottom-4 right-4">
+        <SupportButton />
+      </div>
     </div>
   );
 } 

@@ -1,37 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Breath Better
+
+A mindful breathing application designed to help you reduce stress, increase energy, and enhance overall well-being through guided breathing exercises.
+
+## About
+
+Breath Better is an open-source breathing exercise application that offers various breathing patterns including:
+
+- Box Breathing (4-4-4-4)
+- 4-7-8 Breathing
+- Spiral Breathing
+- Wim Hof Method
+- Triangle Breath
+
+The application features:
+- Interactive breathing visualization
+- Multiple breathing patterns
+- Dark/Light mode support
+- Ambient background music
+- Responsive design
+
+## Free & Open Source
+
+This codebase is free and open source under the MIT license. While you can self-host or modify the code as you wish, a premium version with additional features will be available at our hosted website (coming soon).
 
 ## Getting Started
 
-First, run the development server:
+First, clone the repository:
+
+```bash
+git clone https://github.com/Chepenik/breathbetter.git
+cd breathbetter
+```
+
+Install dependencies:
+
+```bash
+npm install
+# or
+yarn install
+```
+
+Run the development server:
 
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- [Next.js](https://nextjs.org) - React Framework
+- [TailwindCSS](https://tailwindcss.com) - Styling
+- [Framer Motion](https://www.framer.com/motion/) - Animations
+- [TypeScript](https://www.typescriptlang.org/) - Type Safety
 
-## Learn More
+## Contributing
 
-To learn more about Next.js, take a look at the following resources:
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Connect
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- [Follow on X (Twitter)](https://x.com/conorchepenik)
+- [GitHub Repository](https://github.com/Chepenik/breathbetter)
 
-## Deploy on Vercel
+## License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# breathbetter
+[MIT](LICENSE) - feel free to use this code for your own projects!

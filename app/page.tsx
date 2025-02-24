@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { SupportButton } from "@/components/SupportButton";
+import { SocialLinks } from "@/components/SocialLinks";
 
 export default function Home() {
   return (
@@ -62,6 +63,7 @@ export default function Home() {
         <p>Breathe better. Feel better. Live better.</p>
       </footer>
 
+      <SocialLinks />
       <SupportButton />
     </div>
   );
