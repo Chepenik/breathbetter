@@ -1,7 +1,12 @@
 {
   "name": "breathbetter",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chepenik/breathbetter"
+  },
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
@@ -13,6 +18,7 @@
     "framer-motion": "^12.4.7",
     "lucide-react": "^0.475.0",
     "next": "15.1.7",
+    "next-themes": "^0.4.4",
     "qrcode.react": "^4.2.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"

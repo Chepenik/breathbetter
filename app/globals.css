@@ -3,15 +3,17 @@
 @tailwind utilities;
 
 :root {
-  /* Light mode colors */
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: linear-gradient(to bottom, #f8fafc, #ffffff);
+  --foreground: #0f172a;
+  --modal-bg: rgba(255, 255, 255, 0.9); /* Light mode modal background */
+  --modal-text: #0f172a; /* Light mode modal text color */
 }
 
-/* Force dark mode */
-:root {
+:root[class~="dark"] {
   --background: linear-gradient(to bottom, #111827, #1f2937);
   --foreground: #ededed;
+  --modal-bg: rgba(0, 0, 0, 0.9); /* Dark mode modal background */
+  --modal-text: #ededed; /* Dark mode modal text color */
 }
 
 body {
@@ -23,14 +25,20 @@ body {
 /* Add specific dark mode styles for the select element */
 select {
   background-color: rgba(0, 0, 0, 0.4);
-  color: white;
+  color: var(--foreground);
 }
 
 select option {
-  background-color: #1f2937;
-  color: white;
+  background-color: var(--background);
+  color: var(--foreground);
 }
 
 html.dark body {
   background: var(--background);
+}
+
+/* Modal styles */
+.modal {
+  background-color: var(--modal-bg);
+  color: var(--modal-text);
 }

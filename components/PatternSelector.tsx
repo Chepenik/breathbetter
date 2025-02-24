@@ -46,8 +46,7 @@ export function PatternSelector({
         </div>
         <div
           className="absolute hidden group-hover:block top-full mt-2 p-4
-                     bg-white/10 backdrop-blur-md rounded-lg border border-white/20
-                     text-white text-sm w-72 shadow-xl z-10"
+                     rounded-lg border border-white/20 text-sm w-72 shadow-xl z-10 modal"
         >
           {selectedPattern.description.split(";").map((step, i) => (
             <p key={i} className="mb-2 last:mb-0">

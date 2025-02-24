@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { PatternSelector } from "@/compoenents/PatternSelector";
-import { BreathingCircle } from "@/compoenents/BreathingCircle";
-import { BackgroundMusic } from "@/compoenents/BackgroundMusic";
+import { PatternSelector } from "@/components/PatternSelector";
+import { BreathingCircle } from "@/components/BreathingCircle";
+import { BackgroundMusic } from "@/components/BackgroundMusic";
 import { patterns, type Pattern, type Phase } from "@/lib/patterns";
 import { SupportButton } from "@/components/SupportButton";
 
@@ -14,26 +14,18 @@ export default function PracticePage() {
   const [timeRemaining, setTimeRemaining] = useState<number>(
     selectedPattern.sequence?.[0] ?? selectedPattern.durations.inhale ?? 4
   );
-  const [progress, setProgress] = useState(0);
   const [sequenceIndex, setSequenceIndex] = useState(0);
-  const [isTipModalOpen, setIsTipModalOpen] = useState(false);
 
   // Reset everything when pattern changes
   useEffect(() => {
-    // Stop the current pattern if it's playing
     setIsPlaying(false);
-    // Reset to initial phase
     setPhase("inhale");
-    // Reset sequence index
     setSequenceIndex(0);
-    // Reset time remaining to the new pattern's initial duration
     setTimeRemaining(
       selectedPattern.sequence?.[0] ?? 
       selectedPattern.durations.inhale ?? 
       4
     );
-    // Reset progress
-    setProgress(0);
   }, [selectedPattern]);
 
   useEffect(() => {
@@ -41,69 +33,50 @@ export default function PracticePage() {
 
     const interval = setInterval(() => {
       setTimeRemaining((prev) => {
-        // Ensure prev has a default value
         const currentTime = prev ?? 0;
 
-        // If time is up or nearly up (within 0.1s)
         if (currentTime <= 0.1) {
-          const nextPhase =
-            phase === "inhale"
-              ? "hold"
-              : phase === "hold"
-              ? "exhale"
-              : phase === "exhale"
-              ? "holdAfterExhale"
-              : "inhale";
-
-          setPhase(nextPhase);
-          setProgress(0);
-
-          // Handle spiral breathing sequence
           if (selectedPattern.sequence) {
-            if (nextPhase === "inhale") {
-              const nextIndex = (sequenceIndex + 1) % selectedPattern.sequence.length;
-              setSequenceIndex(nextIndex);
-              return selectedPattern.sequence[nextIndex];
-            } else if (nextPhase === "hold" || nextPhase === "exhale") {
+            if (phase === "inhale") {
+              setPhase("exhale");
               return selectedPattern.sequence[sequenceIndex];
-            } else if (nextPhase === "holdAfterExhale") {
-              return selectedPattern.durations.holdAfterExhale ?? 13;
+            } else if (phase === "exhale") {
+              if (sequenceIndex === selectedPattern.sequence.length - 1) {
+                setPhase("holdAfterExhale");
+                return selectedPattern.durations.holdAfterExhale ?? 13;
+              } else {
+                const nextIndex = sequenceIndex + 1;
+                setSequenceIndex(nextIndex);
+                setPhase("inhale");
+                return selectedPattern.sequence[nextIndex];
+              }
+            } else if (phase === "holdAfterExhale") {
+              setSequenceIndex(0);
+              setPhase("inhale");
+              return selectedPattern.sequence[0];
             }
-          }
+          } else {
+            const nextPhase =
+              phase === "inhale"
+                ? "hold"
+                : phase === "hold"
+                ? "exhale"
+                : phase === "exhale"
+                ? "holdAfterExhale"
+                : "inhale";
 
-          // For non-sequence patterns, use the durations from the pattern
-          return (
-            selectedPattern.durations[nextPhase] ??
-            selectedPattern.durations.inhale ??
-            4
-          );
+            setPhase(nextPhase);
+            return selectedPattern.durations[nextPhase] ?? 4;
+          }
         }
 
-        // Update progress for the current phase
-        const newTime = currentTime - 0.1;
-        const duration = (() => {
-          if (selectedPattern.sequence) {
-            if (phase === "holdAfterExhale") {
-              return selectedPattern.durations.holdAfterExhale ?? 13;
-            }
-            return selectedPattern.sequence[sequenceIndex];
-          }
-          return (
-            selectedPattern.durations[phase] ??
-            selectedPattern.durations.inhale ??
-            4
-          );
-        })();
-
-        setProgress(1 - newTime / duration);
-        return newTime;
+        return currentTime - 0.1;
       });
     }, 100);
 
     return () => clearInterval(interval);
   }, [isPlaying, phase, selectedPattern, sequenceIndex]);
 
-  // Reset everything when stopping
   const handlePlayPause = () => {
     if (isPlaying) {
       setIsPlaying(false);
@@ -114,13 +87,11 @@ export default function PracticePage() {
         selectedPattern.durations.inhale ??
         4
       );
-      setProgress(0);
     } else {
       setIsPlaying(true);
     }
   };
 
-  // Ensure timeRemaining is always a number for the BreathingCircle component
   const safeTimeRemaining = timeRemaining ?? 0;
 
   return (
@@ -141,8 +112,6 @@ export default function PracticePage() {
       <div className="h-[300px] md:h-[400px] flex items-center justify-center">
         <BreathingCircle
           phase={phase}
-          progress={progress}
-          isActive={isPlaying}
           timeRemaining={safeTimeRemaining}
         />
       </div>

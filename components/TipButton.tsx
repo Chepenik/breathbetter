@@ -25,8 +25,8 @@ const TipButton: React.FC<TipButtonProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50" role="dialog" aria-modal="true">
-      <div className="bg-gray-900/90 backdrop-blur-lg rounded-xl shadow-2xl max-w-md w-full relative overflow-hidden text-white border border-white/10">
+    <div className="fixed inset-0 bg-slate-900/75 dark:bg-black/75 flex items-center justify-center p-4 z-50" role="dialog" aria-modal="true">
+      <div className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-lg rounded-xl shadow-2xl max-w-md w-full relative overflow-hidden text-slate-900 dark:text-white border border-slate-200 dark:border-white/10">
         <button
           className="absolute top-2 right-2 text-gray-300 hover:text-white transition-colors"
           onClick={onClose}

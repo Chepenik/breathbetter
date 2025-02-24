@@ -1,19 +1,15 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { type Phase } from "@/lib/patterns";
 
 interface BreathingCircleProps {
   phase: Phase;
-  progress: number;
-  isActive: boolean;
   timeRemaining: number;
 }
 
 export function BreathingCircle({
   phase,
-  progress,
-  isActive,
   timeRemaining,
 }: BreathingCircleProps) {
   // Define phase-based styles

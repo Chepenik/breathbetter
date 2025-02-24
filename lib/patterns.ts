@@ -35,8 +35,8 @@ export const patterns = [
   },
   {
     name: "Spiral Breathing",
-    description: "Start with 13-second breaths, then gradually decrease to 8, 5, 2, 2, and 1 second; Hold for 13 seconds at the end of the cycle; Repeat",
-    sequence: [13, 8, 5, 2, 2, 1],
+    description: "Start with 13-second breaths, then gradually decrease to 8, 5, 3, 2, and 1 second; Hold for 13 seconds at the end of the cycle; Repeat",
+    sequence: [13, 8, 5, 3, 2, 1],
     durations: {
       holdAfterExhale: 13
     }
