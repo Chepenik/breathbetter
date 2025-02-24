@@ -35,43 +35,43 @@ const TipButton: React.FC<TipButtonProps> = ({ isOpen, onClose }) => {
           <X size={24} />
         </button>
         
-        <h2 className="text-2xl font-bold mb-6 text-center pt-6 bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500">
+        <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-center pt-4 sm:pt-6 bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500">
           Support Breath Better
         </h2>
         
-        <div className="px-6 pb-6">
+        <div className="px-4 sm:px-6 pb-4 sm:pb-6">
           <a
             href={lightningAddress}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center w-full bg-gradient-to-r from-pink-500 to-violet-500 text-white py-3 px-4 rounded-lg font-bold 
-                     hover:from-pink-600 hover:to-violet-600 transition duration-300 mb-4 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+            className="flex items-center justify-center w-full bg-gradient-to-r from-pink-500 to-violet-500 text-white py-2.5 sm:py-3 px-3 sm:px-4 rounded-lg font-bold 
+                     hover:from-pink-600 hover:to-violet-600 transition duration-300 mb-4 shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-sm sm:text-base"
           >
-            ⚡ Pay with Lightning <ExternalLink size={20} className="ml-2" />
+            ⚡ Pay with Lightning <ExternalLink size={18} className="ml-2" />
           </a>
           
-          <div className="mt-6 text-center">
-            <h3 className="text-xl font-semibold mb-2">Bitcoin Address</h3>
-            <div className="mb-4 flex justify-center bg-white/5 p-4 rounded-lg">
+          <div className="mt-4 sm:mt-6 text-center">
+            <h3 className="text-lg sm:text-xl font-semibold mb-2">Bitcoin Address</h3>
+            <div className="mb-4 flex justify-center bg-white/5 p-2 sm:p-4 rounded-lg">
               <QRCodeSVG 
                 value={btcAddress} 
-                size={200} 
+                size={160} 
                 bgColor="transparent" 
-                fgColor="#ffffff" 
+                fgColor="currentColor" 
                 level="H"
               />
             </div>
-            <p className="text-sm text-gray-300 mb-2 break-all font-mono">{btcAddress}</p>
+            <p className="text-xs sm:text-sm text-slate-900 dark:text-gray-300 mb-2 break-all font-mono">{btcAddress}</p>
             <button
-              className="inline-flex items-center justify-center bg-white/10 text-white py-2 px-4 rounded-lg 
-                       hover:bg-white/20 transition duration-300 border border-white/10"
+              className="inline-flex items-center justify-center bg-white/10 hover:bg-white/20 text-slate-900 dark:text-white py-1.5 sm:py-2 px-3 sm:px-4 rounded-lg 
+                       transition duration-300 border border-slate-300 dark:border-white/10 text-xs sm:text-sm"
               onClick={() => copyToClipboard(btcAddress)}
             >
-              Copy BTC Address <Copy size={20} className="ml-2" />
+              Copy BTC Address <Copy size={16} className="ml-2" />
             </button>
           </div>
           
-          <p className="text-center text-gray-300 font-medium mt-6">
+          <p className="text-center text-slate-900 dark:text-gray-300 font-medium mt-4 sm:mt-6 text-xs sm:text-sm">
             Thank you for supporting Breath Better! 🙏
           </p>
         </div>

@@ -3,10 +3,10 @@
 @tailwind utilities;
 
 :root {
-  --background: linear-gradient(to bottom, #f8fafc, #ffffff);
-  --foreground: #0f172a;
-  --modal-bg: rgba(255, 255, 255, 0.9); /* Light mode modal background */
-  --modal-text: #0f172a; /* Light mode modal text color */
+  --background: linear-gradient(to bottom, #f0f4f8, #e6f0f9);
+  --foreground: #334155;
+  --modal-bg: rgba(240, 244, 248, 0.95); /* Light mode modal background */
+  --modal-text: #334155; /* Light mode modal text color */
 }
 
 :root[class~="dark"] {
@@ -20,6 +20,8 @@ body {
   color: var(--foreground);
   background: var(--background);
   min-height: 100vh;
+  -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
+  overflow-x: hidden; /* Prevent horizontal scrolling on mobile */
 }
 
 /* Add specific dark mode styles for the select element */
@@ -41,4 +43,15 @@ html.dark body {
 .modal {
   background-color: var(--modal-bg);
   color: var(--modal-text);
+  backdrop-filter: blur(8px);
+}
+
+/* Improve touch targets for mobile */
+button, a {
+  touch-action: manipulation;
+}
+
+/* Prevent text size adjustment on orientation change */
+html {
+  -webkit-text-size-adjust: 100%;
 }

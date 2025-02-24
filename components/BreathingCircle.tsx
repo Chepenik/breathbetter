@@ -65,18 +65,18 @@ export function BreathingCircle({
   ];
 
   return (
-    <div className="relative flex items-center justify-center">
-      {/* Animated Outer Ring - reduced size */}
+    <div className="relative flex items-center justify-center w-full h-full">
+      {/* Animated Outer Ring - further reduced size for mobile */}
       <motion.div
-        className={`absolute w-48 h-48 md:w-64 md:h-64 rounded-full border-[8px] ${
+        className={`absolute w-36 h-36 sm:w-44 sm:h-44 md:w-64 md:h-64 rounded-full border-[6px] sm:border-[8px] ${
           phaseColors[phase]
-        } shadow-[0_0_30px_8px] ${phaseGlow[phase]}`}
+        } shadow-[0_0_20px_5px] sm:shadow-[0_0_30px_8px] ${phaseGlow[phase]}`}
         animate={getScaleAnimation()}
       />
 
-      {/* Lava Lamp Background - reduced size */}
+      {/* Lava Lamp Background - further reduced size for mobile */}
       <motion.div
-        className={`absolute w-40 h-40 md:w-56 md:h-56 rounded-full 
+        className={`absolute w-32 h-32 sm:w-40 sm:h-40 md:w-56 md:h-56 rounded-full 
                    bg-gradient-radial ${lavaColors.join(' ')} opacity-50`}
         animate={{
           rotate: 360,
@@ -89,9 +89,9 @@ export function BreathingCircle({
         }}
       />
 
-      {/* Additional Lava Blobs - reduced size */}
+      {/* Additional Lava Blobs - further reduced size for mobile */}
       <motion.div
-        className={`absolute w-40 h-40 md:w-56 md:h-56 rounded-full 
+        className={`absolute w-32 h-32 sm:w-40 sm:h-40 md:w-56 md:h-56 rounded-full 
                    bg-gradient-conic from-purple-500/20 via-pink-500/20 to-blue-400/20`}
         animate={{
           rotate: -360,
@@ -104,19 +104,19 @@ export function BreathingCircle({
         }}
       />
 
-      {/* Inner Circle - reduced size */}
+      {/* Inner Circle - further reduced size for mobile */}
       <motion.div
-        className="relative flex flex-col items-center justify-center w-40 h-40 md:w-56 md:h-56 
+        className="relative flex flex-col items-center justify-center w-32 h-32 sm:w-40 sm:h-40 md:w-56 md:h-56 
                    rounded-full bg-black/40 backdrop-blur-md"
         animate={getScaleAnimation()}
       >
-        {/* Text Container */}
-        <div className="text-3xl font-semibold text-white capitalize">
+        {/* Text Container - smaller text on mobile */}
+        <div className="text-xl sm:text-2xl md:text-3xl font-semibold text-white capitalize">
           {phase === "holdAfterExhale" ? "Hold" : phase}
         </div>
 
-        {/* Timer Countdown */}
-        <div className="text-xl font-mono text-white/80 mt-2">
+        {/* Timer Countdown - smaller text on mobile */}
+        <div className="text-base sm:text-lg md:text-xl font-mono text-white/80 mt-2">
           {Math.max(0, timeRemaining).toFixed(1)}s
         </div>
       </motion.div>

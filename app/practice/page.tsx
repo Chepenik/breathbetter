@@ -96,9 +96,9 @@ export default function PracticePage() {
   const safeTimeRemaining = timeRemaining ?? 0;
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center gap-12 p-8">
-      <div className="flex flex-col items-center gap-6">
-        <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500">
+    <div className="min-h-screen flex flex-col items-center justify-center gap-6 sm:gap-8 md:gap-12 p-4 sm:p-6 md:p-8 pt-16 md:pt-20">
+      <div className="flex flex-col items-center gap-4 sm:gap-6">
+        <h1 className="text-3xl sm:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500">
           Breath Better
         </h1>
 
@@ -110,7 +110,7 @@ export default function PracticePage() {
         />
       </div>
 
-      <div className="h-[300px] md:h-[400px] flex items-center justify-center">
+      <div className="h-[240px] sm:h-[300px] md:h-[400px] w-full flex items-center justify-center">
         <BreathingCircle
           phase={phase}
           timeRemaining={safeTimeRemaining}
@@ -118,9 +118,9 @@ export default function PracticePage() {
       </div>
 
       <button
-        className="px-6 py-3 bg-gradient-to-r from-pink-500 to-violet-500 text-white rounded-lg
+        className="px-5 py-2.5 sm:px-6 sm:py-3 bg-gradient-to-r from-pink-500 to-violet-500 text-white rounded-lg
                    hover:from-pink-600 hover:to-violet-600 transition-all duration-300
-                   shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                   shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-base sm:text-lg"
         onClick={handlePlayPause}
       >
         {isPlaying ? "Stop" : "Start"}
