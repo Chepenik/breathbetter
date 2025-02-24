@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export function BackgroundMusic({ isPlaying }: { isPlaying: boolean }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!audioRef.current) {
@@ -17,7 +18,10 @@ export function BackgroundMusic({ isPlaying }: { isPlaying: boolean }) {
     if (isPlaying) {
       audioRef.current
         .play()
-        .catch((error) => console.log("Audio playback failed:", error));
+        .catch((error) => {
+          console.error("Audio playback failed:", error);
+          setError("Audio playback failed. Please try again.");
+        });
     } else {
       audioRef.current.pause();
     }
@@ -29,6 +33,14 @@ export function BackgroundMusic({ isPlaying }: { isPlaying: boolean }) {
       }
     };
   }, [isPlaying]);
+
+  if (error) {
+    return (
+      <div className="text-red-500 text-sm mt-2">
+        {error}
+      </div>
+    );
+  }
 
   return null;
 }

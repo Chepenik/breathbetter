@@ -6,7 +6,6 @@ import { BreathingCircle } from "@/components/BreathingCircle";
 import { BackgroundMusic } from "@/components/BackgroundMusic";
 import { patterns, type Pattern, type Phase } from "@/lib/patterns";
 import { SupportButton } from "@/components/SupportButton";
-import { Twitter, Github } from "lucide-react";
 import { SocialLinks } from "@/components/SocialLinks";
 
 export default function PracticePage() {

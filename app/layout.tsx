@@ -16,8 +16,22 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Breath Better",
-  description: "A calming breathwork application",
+  title: "Breath Better - Mindful Breathing Exercises",
+  description: "Transform your life through guided breathing exercises. Reduce stress, boost energy, and improve focus with our interactive breathing patterns.",
+  keywords: "breathing exercises, meditation, mindfulness, stress reduction, box breathing, wim hof",
+  openGraph: {
+    title: "Breath Better - Mindful Breathing Exercises",
+    description: "Transform your life through guided breathing exercises",
+    url: "https://breathbetter.xyz", // Update with your actual domain
+    siteName: "Breath Better",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Breath Better - Mindful Breathing Exercises",
+    description: "Transform your life through guided breathing exercises",
+    creator: "@conorchepenik",
+  },
 };
 
 export default function RootLayout({
