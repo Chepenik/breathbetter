@@ -1,10 +1,31 @@
 import Link from "next/link";
 import { SupportButton } from "@/components/SupportButton";
 import { SocialLinks } from "@/components/SocialLinks";
+import Script from "next/script";
 
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col">
+      {/* Structured Data for SEO */}
+      <Script id="structured-data" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Breath Better",
+        "url": "https://breathbetter.io",
+        "description": "Transform your life through guided breathing exercises. Reduce stress, boost energy, and improve focus with our interactive breathing patterns.",
+        "applicationCategory": "HealthApplication",
+        "operatingSystem": "Web",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "Conor Chepenik"
+        }
+      })}} />
+
       {/* Hero Section */}
       <main className="flex-1 flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 pt-16 md:pt-20">
         <div className="text-center max-w-3xl mx-auto">

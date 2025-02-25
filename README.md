@@ -19,36 +19,42 @@ The application features:
 - Ambient background music
 - Responsive design
 
-## Free & Open Source
+## Open Source Philosophy
 
-This codebase is free and open source under the MIT license. While you can self-host or modify the code as you wish, a premium version with additional features will be available at our hosted website (coming soon).
+I'm a strong believer in open source software and the power of community collaboration. This project will always maintain a fully functional open source version that anyone can use, modify, and learn from.
+
+While I am developing a premium version with additional features, the core functionality will remain free and open source. The premium version will help support ongoing development and improvements to both versions.
 
 ## Getting Started
 
-First, clone the repository:
+### Prerequisites
 
-```bash
-git clone https://github.com/Chepenik/breathbetter.git
-cd breathbetter
-```
+- Node.js 18.0.0 or later
+- npm or yarn
 
-Install dependencies:
+### Installation
 
-```bash
-npm install
-# or
-yarn install
-```
+1. Clone the repository
+   ```bash
+   git clone https://github.com/Chepenik/breathbetter.git
+   cd breathbetter
+   ```
 
-Run the development server:
+2. Install dependencies
+   ```bash
+   npm install
+   # or
+   yarn
+   ```
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+3. Run the development server
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser
 
 ## Tech Stack
 
@@ -65,6 +71,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 - [Follow on X (Twitter)](https://x.com/conorchepenik)
 - [GitHub Repository](https://github.com/Chepenik/breathbetter)
+- [Website](https://breathbetter.io)
 
 ## License
 

@@ -18,19 +18,41 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Breath Better - Mindful Breathing Exercises",
   description: "Transform your life through guided breathing exercises. Reduce stress, boost energy, and improve focus with our interactive breathing patterns.",
-  keywords: "breathing exercises, meditation, mindfulness, stress reduction, box breathing, wim hof",
+  metadataBase: new URL('https://breathbetter.io'),
+  keywords: [
+    "breathing exercises", 
+    "mindful breathing", 
+    "box breathing", 
+    "4-7-8 breathing", 
+    "wim hof method", 
+    "stress reduction", 
+    "meditation", 
+    "breathwork",
+    "anxiety relief",
+    "focus improvement"
+  ],
+  authors: [{ name: "Conor Chepenik" }],
+  creator: "Conor Chepenik",
+  publisher: "Conor Chepenik",
   openGraph: {
-    title: "Breath Better - Mindful Breathing Exercises",
-    description: "Transform your life through guided breathing exercises",
-    url: "https://breathbetter.xyz", // Update with your actual domain
-    siteName: "Breath Better",
     type: "website",
+    url: "https://breathbetter.io",
+    title: "Breath Better - Transform Your Life Through Breath",
+    description: "Discover the power of conscious breathing to reduce stress, increase energy, and enhance your overall well-being.",
+    siteName: "Breath Better",
+    images: [{
+      url: "https://i.nostr.build/GpyOC3yOQ3YglkRk.jpg",
+      width: 1200,
+      height: 630,
+      alt: "Breath Better - Mindful Breathing App"
+    }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Breath Better - Mindful Breathing Exercises",
-    description: "Transform your life through guided breathing exercises",
+    title: "Breath Better - Transform Your Life Through Breath",
+    description: "Discover the power of conscious breathing to reduce stress, increase energy, and enhance your overall well-being.",
     creator: "@conorchepenik",
+    images: ["https://i.nostr.build/GpyOC3yOQ3YglkRk.jpg"],
   },
 };
 
