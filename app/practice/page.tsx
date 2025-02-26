@@ -10,6 +10,7 @@ import { SocialLinks } from "@/components/SocialLinks";
 
 export default function PracticePage() {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
   const [selectedPattern, setSelectedPattern] = useState<Pattern>(patterns[0]);
   const [phase, setPhase] = useState<Phase>("inhale");
   const [timeRemaining, setTimeRemaining] = useState<number>(
@@ -93,6 +94,10 @@ export default function PracticePage() {
     }
   };
 
+  const toggleMute = () => {
+    setIsMuted(!isMuted);
+  };
+
   const safeTimeRemaining = timeRemaining ?? 0;
 
   return (
@@ -117,16 +122,32 @@ export default function PracticePage() {
         />
       </div>
 
-      <button
-        className="px-5 py-2.5 sm:px-6 sm:py-3 bg-gradient-to-r from-pink-500 to-violet-500 text-white rounded-lg
-                   hover:from-pink-600 hover:to-violet-600 transition-all duration-300
-                   shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-base sm:text-lg"
-        onClick={handlePlayPause}
-      >
-        {isPlaying ? "Stop" : "Start"}
-      </button>
+      <div className="flex gap-4">
+        <button
+          className="px-5 py-2.5 sm:px-6 sm:py-3 bg-gradient-to-r from-pink-500 to-violet-500 text-white rounded-lg
+                     hover:from-pink-600 hover:to-violet-600 transition-all duration-300
+                     shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-base sm:text-lg"
+          onClick={handlePlayPause}
+        >
+          {isPlaying ? "Stop" : "Start"}
+        </button>
+        
+        <button
+          className="px-5 py-2.5 sm:px-6 sm:py-3 bg-gradient-to-r from-gray-500 to-gray-600 text-white rounded-lg
+                     hover:from-gray-600 hover:to-gray-700 transition-all duration-300
+                     shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-base sm:text-lg"
+          onClick={toggleMute}
+        >
+          {isMuted ? "Unmute" : "Mute"}
+        </button>
+      </div>
 
-      <BackgroundMusic isPlaying={isPlaying} />
+      <BackgroundMusic isPlaying={isPlaying} isMuted={isMuted} phase={phase} />
+      
+      <div className="text-center text-sm text-gray-500 max-w-md">
+        <p>The background music volume will briefly lower during breathing phase transitions, 
+        helping you follow the pattern with your eyes closed.</p>
+      </div>
       
       <SocialLinks />
       
