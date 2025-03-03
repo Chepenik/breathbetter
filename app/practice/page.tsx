@@ -145,7 +145,7 @@ export default function PracticePage() {
       <BackgroundMusic isPlaying={isPlaying} isMuted={isMuted} phase={phase} />
       
       <div className="text-center text-sm text-gray-500 max-w-md">
-        <p>The background music volume will briefly lower during breathing phase transitions, 
+        <p>Listen closely to hear a brief vinyl record scratch during breathing phase transitions, 
         helping you follow the pattern with your eyes closed.</p>
       </div>
       
