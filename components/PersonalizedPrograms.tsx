@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Play, Moon, Brain, Heart, Zap } from "lucide-react";
 import { isPremiumActive } from "@/lib/premium";
-import { Pattern } from "@/lib/patterns";
+import { Pattern, StandardPattern, SequencePattern } from "@/lib/patterns";
 
 interface Program {
   id: string;
@@ -35,7 +35,7 @@ export function PersonalizedPrograms({ onSelectPattern, onStartProgram }: Person
         id: "sleep",
         name: "Better Sleep",
         description: "A 7-day program to help you fall asleep faster and improve sleep quality",
-        icon: <Moon className="w-5 h-5" />,
+        icon: "moon",
         days: 7,
         patterns: [
           {
@@ -64,7 +64,7 @@ export function PersonalizedPrograms({ onSelectPattern, onStartProgram }: Person
         id: "stress",
         name: "Stress Reduction",
         description: "A 14-day program to help manage stress and anxiety",
-        icon: <Brain className="w-5 h-5" />,
+        icon: "brain",
         days: 14,
         patterns: [
           {
@@ -93,20 +93,17 @@ export function PersonalizedPrograms({ onSelectPattern, onStartProgram }: Person
         id: "energy",
         name: "Energy Boost",
         description: "A 5-day program to increase energy and alertness",
-        icon: <Zap className="w-5 h-5" />,
+        icon: "zap",
         days: 5,
         patterns: [
           {
             name: "Stimulating Breath",
             description: "Quick inhales and exhales through the nose; Keep the mouth closed; Aim for 3 cycles per second",
+            sequence: [1, 1, 1, 1, 1, 1],
             durations: {
-              inhale: 1,
-              hold: 0,
-              exhale: 1,
               holdAfterExhale: 0
-            },
-            sequence: [1, 1, 1, 1, 1, 1]
-          },
+            }
+          } as SequencePattern,
           {
             name: "Bellows Breath",
             description: "Inhale and exhale rapidly through your nose; Keep the breaths equal in duration",
@@ -116,14 +113,14 @@ export function PersonalizedPrograms({ onSelectPattern, onStartProgram }: Person
               exhale: 2,
               holdAfterExhale: 0
             }
-          }
+          } as StandardPattern
         ]
       },
       {
         id: "focus",
         name: "Improved Focus",
         description: "A 10-day program to enhance concentration and mental clarity",
-        icon: <Heart className="w-5 h-5" />,
+        icon: "heart",
         days: 10,
         patterns: [
           {
@@ -214,8 +211,11 @@ export function PersonalizedPrograms({ onSelectPattern, onStartProgram }: Person
     onStartProgram();
   };
   
-  const completeDay = () => {
+  const _completeDay = () => {
     if (!activeProgram) return;
+    
+    // Use the function here or remove it if not needed
+    console.log("Day completed");
     
     // Check if program is completed
     const isCompleted = activeProgram.currentDay! >= activeProgram.days;
@@ -252,6 +252,22 @@ export function PersonalizedPrograms({ onSelectPattern, onStartProgram }: Person
     ));
   };
   
+  // Then render the icon based on the string identifier
+  const renderIcon = (iconName: string) => {
+    switch(iconName) {
+      case 'moon':
+        return <Moon className="w-5 h-5" />;
+      case 'brain':
+        return <Brain className="w-5 h-5" />;
+      case 'zap':
+        return <Zap className="w-5 h-5" />;
+      case 'heart':
+        return <Heart className="w-5 h-5" />;
+      default:
+        return <Moon className="w-5 h-5" />;
+    }
+  };
+  
   if (!isPremium) {
     return (
       <div className="bg-gradient-to-r from-amber-500/10 to-yellow-500/10 border border-amber-500/20 rounded-lg p-4 text-center">
@@ -279,7 +295,7 @@ export function PersonalizedPrograms({ onSelectPattern, onStartProgram }: Person
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
               <div className="bg-green-500/20 p-2 rounded-full">
-                {activeProgram.icon}
+                {renderIcon(activeProgram.icon as string)}
               </div>
               <div>
                 <h4 className="font-medium">{activeProgram.name}</h4>
@@ -342,7 +358,7 @@ export function PersonalizedPrograms({ onSelectPattern, onStartProgram }: Person
           >
             <div className="flex items-start gap-3">
               <div className="bg-amber-500/20 p-2 rounded-full">
-                {program.icon}
+                {renderIcon(program.icon as string)}
               </div>
               
               <div className="flex-1">

@@ -9,9 +9,9 @@ import { SupportButton } from "@/components/SupportButton";
 import { isPremiumActive, activatePremium, getPremiumExpiryDate, deactivatePremium } from "@/lib/premium";
 
 export default function PremiumPage() {
-  const [premiumCode, setPremiumCode] = useState("");
+  const [premiumCode, _setPremiumCode] = useState("");
   const [isPremium, setIsPremium] = useState(false);
-  const [expiryDate, setExpiryDate] = useState<Date | null>(null);
+  const [_expiryDate, setExpiryDate] = useState<Date | null>(null);
   const [activationSuccess, setActivationSuccess] = useState(false);
   const [deactivationSuccess, setDeactivationSuccess] = useState(false);
   
@@ -20,6 +20,11 @@ export default function PremiumPage() {
     setIsPremium(isPremiumActive());
     setExpiryDate(getPremiumExpiryDate());
   }, []);
+  
+  // Unused but kept for future use
+  const _handleActivate = () => {
+    // Implementation
+  };
   
   const handleActivate = () => {
     if (premiumCode.trim() === "") return;

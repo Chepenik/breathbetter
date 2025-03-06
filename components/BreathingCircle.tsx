@@ -20,13 +20,6 @@ export function BreathingCircle({
     holdAfterExhale: "bg-gradient-to-r from-gray-500 via-gray-600 to-gray-700",
   };
 
-  const phaseGlow: Record<Phase, string> = {
-    inhale: "shadow-blue-500/50",
-    hold: "shadow-yellow-500/50",
-    exhale: "shadow-purple-500/50",
-    holdAfterExhale: "shadow-gray-500/50",
-  };
-
   // Add this to your BreathingCircle component
   const breathingAnimation = {
     inhale: {

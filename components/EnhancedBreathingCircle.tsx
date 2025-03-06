@@ -14,12 +14,7 @@ interface EnhancedBreathingCircleProps {
 }
 
 // Define phase-based styles
-const phaseColors: Record<Phase, string> = {
-  inhale: "bg-gradient-to-r from-blue-400 via-teal-400 to-green-400",
-  hold: "bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400",
-  exhale: "bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500",
-  holdAfterExhale: "bg-gradient-to-r from-gray-500 via-gray-600 to-gray-700",
-};
+// const phaseColors: Record<Phase, string> = { ... };
 
 const phaseGlow: Record<Phase, string> = {
   inhale: "shadow-blue-500/50",
@@ -66,17 +61,8 @@ export function EnhancedBreathingCircle({
   phase,
   timeRemaining,
   visualizationType = "circle",
-  primaryColor = "#3674B5",
-  secondaryColor = "#ffffff"
+  primaryColor = "#3674B5"
 }: EnhancedBreathingCircleProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  
-  // Update animation durations based on timeRemaining
-  const currentAnimation = {...breathingAnimation[phase]};
-  if (currentAnimation.transition) {
-    currentAnimation.transition.duration = timeRemaining;
-  }
-
   if (visualizationType === "3d") {
     return <ThreeDVisualization phase={phase} timeRemaining={timeRemaining} primaryColor={primaryColor} />;
   }
@@ -111,7 +97,7 @@ export function EnhancedBreathingCircle({
             style={{
               width: `${100 + i * 40}px`,
               height: `${100 + i * 40}px`,
-              borderColor: i % 2 === 0 ? primaryColor : secondaryColor,
+              borderColor: i % 2 === 0 ? primaryColor : "#ffffff",
               opacity: 0.7 - i * 0.1,
             }}
             animate={{
@@ -133,7 +119,7 @@ export function EnhancedBreathingCircle({
         <motion.div
           className="relative rounded-full flex flex-col items-center justify-center z-10"
           style={{
-            background: `radial-gradient(circle, ${secondaryColor}80, ${primaryColor}80)`,
+            background: `radial-gradient(circle, ${"#ffffff"}80, ${primaryColor}80)`,
             width: "100px",
             height: "100px",
             boxShadow: `0 0 20px 5px ${primaryColor}50`,
@@ -172,7 +158,7 @@ export function EnhancedBreathingCircle({
         style={{
           boxShadow: `0 0 60px 30px ${primaryColor}50`,
         }}
-        animate={currentAnimation}
+        animate={breathingAnimation[phase]}
       />
 
       {/* Rotating background particles */}
@@ -196,7 +182,7 @@ export function EnhancedBreathingCircle({
           boxShadow: `0 0 20px 5px ${primaryColor}30`,
           border: `2px solid ${primaryColor}50`,
         }}
-        animate={currentAnimation}
+        animate={breathingAnimation[phase]}
       >
         {/* Text Container */}
         <div className="text-xl sm:text-2xl md:text-3xl font-semibold text-white capitalize">

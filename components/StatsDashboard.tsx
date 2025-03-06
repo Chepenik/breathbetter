@@ -47,9 +47,10 @@ export function StatsDashboard() {
     setTotalTime(total);
     
     // Calculate current streak
-    let streak = 0;
-    let currentDate = new Date();
+    const currentDate = new Date();
     currentDate.setHours(0, 0, 0, 0);
+    
+    let streak = 0;
     
     // Check if there's a session today
     const todaySession = sortedSessions.find(session => {
@@ -62,7 +63,7 @@ export function StatsDashboard() {
       streak = 1;
       
       // Check consecutive days before today
-      let checkDate = new Date(currentDate);
+      const checkDate = new Date(currentDate);
       let keepChecking = true;
       
       while (keepChecking) {
@@ -257,4 +258,4 @@ function formatTime(seconds: number): string {
 function formatDate(dateString: string): string {
   const date = new Date(dateString);
   return date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
-} 
+}

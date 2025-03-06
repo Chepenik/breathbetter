@@ -58,7 +58,7 @@ export function ThreeDVisualization({
         }}
       >
         {/* Cube faces */}
-        {['front', 'back', 'right', 'left', 'top', 'bottom'].map((face, i) => (
+        {['front', 'back', 'right', 'left', 'top', 'bottom'].map((face) => (
           <div 
             key={face}
             className="absolute w-full h-full border-2 border-white/30 backdrop-blur-md"
@@ -91,6 +91,27 @@ export function ThreeDVisualization({
           </div>
         </motion.div>
       </motion.div>
+
+      {/* Additional glow */}
+      {Array.from({ length: 5 }).map((_, index) => (
+        <motion.div
+          key={index}
+          className="absolute w-full h-full rounded-full border border-white/20"
+          style={{
+            transform: `scale(${1 + index * 0.15})`,
+            opacity: 1 - index * 0.2,
+          }}
+          animate={{
+            scale: [1 + index * 0.15, 1.5 + index * 0.15],
+            opacity: [1 - index * 0.2, 0],
+          }}
+          transition={{
+            duration: timeRemaining,
+            ease: "linear",
+            repeat: 0,
+          }}
+        />
+      ))}
     </div>
   );
 } 
