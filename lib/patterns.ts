@@ -1,16 +1,34 @@
 export type Phase = "inhale" | "hold" | "exhale" | "holdAfterExhale";
 
-export interface Pattern {
+// Define a common base pattern type
+export type BasePattern = {
   name: string;
   description: string;
-  sequence?: number[];
+};
+
+// Define two separate pattern types
+export type StandardPattern = BasePattern & {
   durations: {
-    inhale?: number;
-    hold?: number;
-    exhale?: number;
-    holdAfterExhale?: number;
+    inhale: number;
+    hold: number;
+    exhale: number;
+    holdAfterExhale: number;
   };
-}
+  sequence?: undefined;
+};
+
+export type SequencePattern = BasePattern & {
+  sequence: number[];
+  durations: {
+    holdAfterExhale: number;
+    inhale?: undefined;
+    hold?: undefined;
+    exhale?: undefined;
+  };
+};
+
+// Union type for Pattern
+export type Pattern = StandardPattern | SequencePattern;
 
 export const patterns = [
   {
@@ -45,7 +63,7 @@ export const patterns = [
     name: "Wim Hof Breath",
     description:
       "30 deep breaths, hold after last exhale (30-60s), inhale deeply, hold for 15s, repeat 3-4 rounds",
-    durations: { inhale: 2, hold: 0, exhale: 2, holdAfterExhale: 0 }, // Simplified for demo
+    durations: { inhale: 2, hold: 0, exhale: 2, holdAfterExhale: 0 },
   },
   {
     name: "Triangle Breath",

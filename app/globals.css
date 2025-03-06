@@ -55,3 +55,12 @@ button, a {
 html {
   -webkit-text-size-adjust: 100%;
 }
+
+/* Add these at the end of your globals.css file */
+.perspective-800 {
+  perspective: 800px;
+}
+
+.transform-style-3d {
+  transform-style: preserve-3d;
+}

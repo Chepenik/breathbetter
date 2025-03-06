@@ -13,6 +13,14 @@ export function Navigation() {
       <div className="max-w-7xl mx-auto">
         <Link href="/">
           <motion.div
+            animate={{ 
+              scale: [1, 1.03, 1],
+            }}
+            transition={{ 
+              duration: 5, 
+              repeat: Infinity,
+              ease: "easeInOut" 
+            }}
             className="relative w-[50px] h-[50px] overflow-visible"
             onHoverStart={() => setIsHovering(true)}
             onHoverEnd={() => setIsHovering(false)}

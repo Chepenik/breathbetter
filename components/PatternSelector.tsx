@@ -2,6 +2,7 @@
 
 import { patterns, type Pattern } from "@/lib/patterns";
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 interface PatternSelectorProps {
   selectedPattern: Pattern;
@@ -54,13 +55,17 @@ export function PatternSelector({
         {showTooltip && (
           <>
             <div 
-              className="fixed inset-0 z-20" 
+              className="fixed inset-0 z-20 backdrop-blur-sm bg-black/5" 
               onClick={() => setShowTooltip(false)}
               aria-hidden="true"
             />
-            <div
+            <motion.div
+              initial={{ opacity: 0, y: 10, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.2 }}
               className="absolute top-full mt-2 p-4 sm:p-5
-                       rounded-lg border border-slate-300 dark:border-white/20 
+                       rounded-lg border border-slate-300/50 dark:border-white/10 
                        text-sm sm:text-base w-72 sm:w-80 shadow-xl z-30
                        bg-white/90 dark:bg-gray-800/90 backdrop-blur-md
                        text-slate-700 dark:text-white/90"
@@ -79,7 +84,7 @@ export function PatternSelector({
               >
                 Close
               </button>
-            </div>
+            </motion.div>
           </>
         )}
       </div>
