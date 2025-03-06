@@ -24,12 +24,11 @@ export function PatternSelector({
           );
           if (newPattern) onPatternChange(newPattern);
         }}
-        className="px-4 py-2 sm:px-6 sm:py-3 bg-gray-800 text-white rounded-lg
-                   border border-gray-700 focus:outline-none focus:ring-2
-                   focus:ring-pink-500 appearance-none cursor-pointer
-                   hover:bg-gray-700 transition-all duration-300 text-sm sm:text-base w-full max-w-[250px] sm:max-w-none
-                   dark:bg-gray-800 dark:text-white bg-slate-200 text-slate-800"
-        style={{ backgroundColor: 'var(--select-bg, rgb(31 41 55))' }}
+        className="px-4 py-2 sm:px-6 sm:py-3 text-white rounded-lg
+                   border border-[#578FCA]/30 focus:outline-none focus:ring-2
+                   focus:ring-[#FF748B] appearance-none cursor-pointer
+                   hover:bg-[#3674B5]/80 transition-all duration-300 text-sm sm:text-base w-full max-w-[250px] sm:max-w-none"
+        style={{ backgroundColor: 'var(--color-primary, #3674B5)' }}
       >
         {patterns.map((pattern: Pattern) => (
           <option 

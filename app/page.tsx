@@ -44,10 +44,20 @@ export default function Home() {
             href="/practice"
             className="inline-flex items-center px-6 py-3 sm:px-8 sm:py-4 text-base sm:text-lg font-medium text-white 
                      bg-gradient-to-r from-pink-500 to-violet-500 rounded-lg
-                     hover:from-pink-600 hover:to-violet-600 transform hover:-translate-y-1
-                     transition-all duration-300 shadow-lg hover:shadow-xl"
+                     hover:from-pink-600 hover:to-violet-600 
+                     transform hover:-translate-y-1 hover:scale-105
+                     transition-all duration-300 shadow-lg hover:shadow-xl
+                     relative overflow-hidden group"
           >
-            Start Breathing →
+            <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-violet-600 to-pink-600 opacity-0 
+                  group-hover:opacity-100 transition-opacity duration-300"></span>
+            <span className="relative z-10 flex items-center">
+              Start Breathing 
+              <svg className="ml-1 w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300" 
+                   fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </span>
           </Link>
         </div>
 

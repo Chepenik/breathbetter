@@ -72,7 +72,7 @@ const TipButton: React.FC<TipButtonProps> = ({ isOpen, onClose }) => {
           </div>
           
           <p className="text-center text-slate-900 dark:text-gray-300 font-medium mt-4 sm:mt-6 text-xs sm:text-sm">
-            Thank you for supporting Breath Better! 🙏
+            Thank you for supporting Breath Better and open source software! 🙏
           </p>
         </div>
       </div>
