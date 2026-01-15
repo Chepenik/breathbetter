@@ -74,9 +74,21 @@ export default function RootLayout({
           enableSystem={true}
           disableTransitionOnChange
         >
+          {/* Skip to content link for accessibility */}
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50
+                       focus:px-4 focus:py-2 focus:bg-white focus:dark:bg-gray-800 focus:text-slate-900
+                       focus:dark:text-white focus:rounded-lg focus:shadow-lg focus:outline-none
+                       focus:ring-2 focus:ring-pink-500"
+          >
+            Skip to content
+          </a>
           <Navigation />
           <ThemeToggle />
-          {children}
+          <main id="main-content">
+            {children}
+          </main>
         </ThemeProvider>
       </body>
     </html>

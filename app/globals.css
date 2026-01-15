@@ -51,6 +51,28 @@ button, a {
   touch-action: manipulation;
 }
 
+/* Focus states for accessibility */
+button:focus-visible,
+a:focus-visible,
+select:focus-visible,
+input:focus-visible {
+  outline: none;
+  ring: 2px;
+  ring-offset: 2px;
+  box-shadow: 0 0 0 2px var(--background), 0 0 0 4px #ec4899;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 /* Prevent text size adjustment on orientation change */
 html {
   -webkit-text-size-adjust: 100%;

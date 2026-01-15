@@ -1,0 +1,90 @@
+{
+  "critical_flows": [
+    {
+      "name": "Start breathing session",
+      "path": "/practice",
+      "steps": [
+        "Navigate to /practice",
+        "Click Start button",
+        "Verify breathing circle animates",
+        "Verify phase text updates (Inhale → Hold → Exhale)",
+        "Verify timer countdown displays",
+        "Click Stop button",
+        "Verify session resets"
+      ],
+      "status": "needs_manual_test"
+    },
+    {
+      "name": "Pattern selection",
+      "path": "/practice",
+      "steps": [
+        "Navigate to /practice",
+        "Click pattern dropdown",
+        "Select different pattern (e.g., 4-7-8 Breathing)",
+        "Verify description updates in tooltip",
+        "Start session",
+        "Verify durations match selected pattern"
+      ],
+      "status": "needs_manual_test"
+    },
+    {
+      "name": "Premium activation",
+      "path": "/premium",
+      "steps": [
+        "Navigate to /premium",
+        "Click 'Activate Premium' button",
+        "Verify premium status shows as active",
+        "Navigate to /practice",
+        "Verify premium tabs appear (Programs, Custom, Stats)"
+      ],
+      "status": "needs_manual_test"
+    },
+    {
+      "name": "Theme toggle",
+      "path": "/",
+      "steps": [
+        "Load app in dark mode (default)",
+        "Find theme toggle button",
+        "Click to switch to light mode",
+        "Verify colors update appropriately",
+        "Click to return to dark mode"
+      ],
+      "status": "needs_manual_test"
+    },
+    {
+      "name": "Mobile responsiveness",
+      "path": "/practice",
+      "steps": [
+        "Open in mobile viewport (375px width)",
+        "Verify breathing circle fits without overflow",
+        "Verify buttons are tappable (min 44px target)",
+        "Verify text is readable without zooming",
+        "Test pattern selector dropdown on mobile"
+      ],
+      "status": "needs_manual_test"
+    }
+  ],
+  "accessibility_checks": [
+    {
+      "name": "Keyboard navigation",
+      "status": "improved",
+      "notes": "Focus states added to all interactive elements. Skip-to-content link added."
+    },
+    {
+      "name": "Screen reader compatibility",
+      "status": "partial",
+      "notes": "Skip link added, aria-labels improved. Phase changes still need aria-live region."
+    },
+    {
+      "name": "Color contrast",
+      "status": "needs_audit",
+      "notes": "Light mode contrast needs review"
+    },
+    {
+      "name": "Reduced motion",
+      "status": "implemented",
+      "notes": "prefers-reduced-motion media query now disables animations"
+    }
+  ],
+  "last_updated": "2025-01-14"
+}

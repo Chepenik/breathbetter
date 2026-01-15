@@ -10,7 +10,7 @@ import { SupportButton } from "@/components/SupportButton";
 import { VisualizationSettings, VisualizationType } from "@/components/VisualizationSettings";
 import { StatsDashboard } from "@/components/StatsDashboard";
 import { PersonalizedPrograms } from "@/components/PersonalizedPrograms";
-import { CustomPatternCreator } from "@/components/CustomPatternCreator";
+import { AICoachInput } from "@/components/AICoachInput";
 import { isPremiumActive, deactivatePremium } from "@/lib/premium";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Sparkles, ArrowLeft } from "lucide-react";
@@ -26,29 +26,44 @@ export default function PracticePage() {
   const [visualizationType, setVisualizationType] = useState<VisualizationType>("circle");
   const [primaryColor, setPrimaryColor] = useState("#3674B5");
   const [isPremium, setIsPremium] = useState(false);
-  const [activeTab, setActiveTab] = useState("practice");
-  
-  // Check premium status
+  const [activeTab, setActiveTab] = useState("breathe");
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Check premium status and handle AI Coach pattern selection
   useEffect(() => {
-    setIsPremium(isPremiumActive());
-    
+    const premium = isPremiumActive();
+    setIsPremium(premium);
+
+    // Check for pattern selected by AI Coach
+    const aiSelectedPattern = localStorage.getItem('breathBetterSelectedPattern');
+    if (aiSelectedPattern) {
+      try {
+        const pattern = JSON.parse(aiSelectedPattern) as Pattern;
+        const existingPattern = patterns.find(p => p.name === pattern.name);
+        if (existingPattern) {
+          setSelectedPattern(existingPattern);
+        } else {
+          setSelectedPattern(pattern);
+        }
+        localStorage.removeItem('breathBetterSelectedPattern');
+      } catch {
+        // Ignore parsing errors
+      }
+    }
+
     // Load custom patterns if premium
-    if (isPremiumActive()) {
+    if (premium) {
       const savedPatterns = localStorage.getItem('breathBetterCustomPatterns');
       if (savedPatterns) {
         const customPatterns = JSON.parse(savedPatterns) as Pattern[];
-        // Add custom patterns to the patterns array
         customPatterns.forEach(pattern => {
           if (!patterns.some(p => p.name === pattern.name)) {
-            // Ensure pattern has required properties before adding
-            const validPattern = pattern.sequence 
+            const validPattern = pattern.sequence
               ? {
                   name: pattern.name,
                   description: pattern.description,
                   sequence: pattern.sequence,
-                  durations: {
-                    holdAfterExhale: pattern.durations.holdAfterExhale || 0
-                  }
+                  durations: { holdAfterExhale: pattern.durations.holdAfterExhale || 0 }
                 } as SequencePattern
               : {
                   name: pattern.name,
@@ -65,19 +80,21 @@ export default function PracticePage() {
         });
       }
     }
+
+    setIsLoading(false);
   }, []);
-  
+
   // Record session when completed
   const recordSession = useCallback((duration: number, completed: boolean) => {
     if (!isPremiumActive()) return;
-    
+
     const session = {
       date: new Date().toISOString(),
       pattern: selectedPattern.name,
       duration,
       completed
     };
-    
+
     const savedSessions = localStorage.getItem('breathBetterSessions');
     const sessions = savedSessions ? JSON.parse(savedSessions) : [];
     sessions.push(session);
@@ -145,15 +162,25 @@ export default function PracticePage() {
     return () => clearInterval(interval);
   }, [isPlaying, phase, selectedPattern, sequenceIndex]);
 
+  const handlePatternChange = (newPattern: Pattern) => {
+    setSelectedPattern(newPattern);
+    setPhase("inhale");
+    setSequenceIndex(0);
+    setTimeRemaining(
+      newPattern.sequence?.[0] ??
+      newPattern.durations.inhale ??
+      4
+    );
+  };
+
   const handlePlayPause = () => {
     if (isPlaying) {
-      // Record the session when stopping
       recordSession(
-        selectedPattern.sequence?.reduce((a, b) => a + b, 0) || 
+        selectedPattern.sequence?.reduce((a, b) => a + b, 0) ||
         Object.values(selectedPattern.durations).reduce((a, b) => a + (b || 0), 0),
         true
       );
-      
+
       setIsPlaying(false);
       setPhase("inhale");
       setSequenceIndex(0);
@@ -170,154 +197,122 @@ export default function PracticePage() {
   const toggleMute = () => {
     setIsMuted(!isMuted);
   };
-  
-  const handleSaveCustomPattern = (pattern: Pattern) => {
-    // Add to patterns array 
-    let newPattern: Pattern;
-    
-    if (pattern.sequence && pattern.sequence.length > 0) {
-      // Create a SequencePattern
-      newPattern = {
-        name: pattern.name,
-        description: pattern.description,
-        sequence: pattern.sequence,
-        durations: {
-          holdAfterExhale: pattern.durations.holdAfterExhale || 0
-        }
-      } as SequencePattern;
-    } else {
-      // Create a StandardPattern
-      newPattern = {
-        name: pattern.name,
-        description: pattern.description,
-        durations: {
-          inhale: pattern.durations.inhale || 4,
-          hold: pattern.durations.hold || 4,
-          exhale: pattern.durations.exhale || 4,
-          holdAfterExhale: pattern.durations.holdAfterExhale || 0
-        }
-      } as StandardPattern;
-    }
-    
-    patterns.push(newPattern);
-    
-    // Save to localStorage
-    const savedPatterns = localStorage.getItem('breathBetterCustomPatterns');
-    const customPatterns = savedPatterns ? JSON.parse(savedPatterns) : [];
-    customPatterns.push(newPattern);
-    localStorage.setItem('breathBetterCustomPatterns', JSON.stringify(customPatterns));
+
+  const handleDeactivatePremium = () => {
+    deactivatePremium();
+    window.location.reload();
   };
 
   const safeTimeRemaining = timeRemaining ?? 0;
 
-  // Add a function to handle deactivating premium
-  const handleDeactivatePremium = () => {
-    deactivatePremium();
-    // Reload the page to show standard version
-    window.location.reload();
-  };
+  // Loading state
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center gap-6 sm:gap-8 md:gap-12 p-4 sm:p-6 md:p-8 pt-16 md:pt-20">
+        <div className="flex flex-col items-center gap-4 sm:gap-6">
+          <div className="h-10 w-48 bg-gradient-to-r from-pink-500/20 to-violet-500/20 rounded-lg animate-pulse" />
+          <div className="h-12 w-64 bg-slate-200/20 dark:bg-white/10 rounded-lg animate-pulse" />
+        </div>
+        <div className="h-[240px] sm:h-[300px] md:h-[400px] w-full flex items-center justify-center">
+          <div className="w-32 h-32 sm:w-40 sm:h-40 md:w-56 md:h-56 rounded-full bg-slate-200/20 dark:bg-white/10 animate-pulse" />
+        </div>
+        <div className="flex gap-4">
+          <div className="h-12 w-24 bg-slate-200/20 dark:bg-white/10 rounded-lg animate-pulse" />
+          <div className="h-12 w-24 bg-slate-200/20 dark:bg-white/10 rounded-lg animate-pulse" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center gap-6 sm:gap-8 md:gap-12 p-4 sm:p-6 md:p-8 pt-16 md:pt-20">
-      <div className="flex flex-col items-center gap-4 sm:gap-6">
+      <div className="flex flex-col items-center gap-4 sm:gap-6 w-full max-w-3xl">
         <h1 className="text-3xl sm:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500">
           Breath Better
         </h1>
-        
+
         {isPremium ? (
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full max-w-3xl">
-            <TabsList className="grid grid-cols-4 mb-4">
-              <TabsTrigger value="practice">Practice</TabsTrigger>
-              <TabsTrigger value="programs">Programs</TabsTrigger>
-              <TabsTrigger value="custom">Custom</TabsTrigger>
-              <TabsTrigger value="stats">Stats</TabsTrigger>
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+            <TabsList className="grid grid-cols-2 mb-4 max-w-xs mx-auto">
+              <TabsTrigger value="breathe">Breathe</TabsTrigger>
+              <TabsTrigger value="progress">Progress</TabsTrigger>
             </TabsList>
-            
-            <TabsContent value="practice" className="flex flex-col items-center">
-              <div className="flex flex-col gap-4">
-                <PatternSelector
-                  selectedPattern={selectedPattern}
-                  onPatternChange={(newPattern) => {
-                    setSelectedPattern(newPattern);
-                    setPhase("inhale");
-                    setSequenceIndex(0);
-                    setTimeRemaining(
-                      newPattern.sequence?.[0] ??
-                      newPattern.durations.inhale ??
-                      4
-                    );
-                  }}
-                />
-                
-                {/* Add the "Go Back to Standard" button */}
-                <button
-                  onClick={handleDeactivatePremium}
-                  className="flex items-center gap-1 text-sm text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 transition-colors"
-                >
-                  <ArrowLeft size={14} />
-                  Go Back to Standard Version
-                </button>
-                
-                <VisualizationSettings
-                  onVisualizationChange={setVisualizationType}
-                  onColorChange={setPrimaryColor}
-                />
+
+            <TabsContent value="breathe" className="flex flex-col items-center gap-4">
+              {/* AI Coach Input */}
+              <AICoachInput
+                isPremium={isPremium}
+                onPatternSelect={handlePatternChange}
+                onProgramSave={() => setActiveTab("progress")}
+              />
+
+              {/* Divider */}
+              <div className="flex items-center gap-3 w-full max-w-md">
+                <div className="flex-1 h-px bg-white/10" />
+                <span className="text-xs text-slate-500">or pick a pattern</span>
+                <div className="flex-1 h-px bg-white/10" />
               </div>
+
+              {/* Pattern Selector */}
+              <PatternSelector
+                selectedPattern={selectedPattern}
+                onPatternChange={handlePatternChange}
+              />
+
+              {/* Visualization Settings */}
+              <VisualizationSettings
+                onVisualizationChange={setVisualizationType}
+                onColorChange={setPrimaryColor}
+              />
+
+              {/* Go back to standard */}
+              <button
+                onClick={handleDeactivatePremium}
+                className="flex items-center gap-1 text-xs text-slate-500 hover:text-slate-400 transition-colors"
+              >
+                <ArrowLeft size={12} />
+                Standard Version
+              </button>
             </TabsContent>
-            
-            <TabsContent value="programs">
+
+            <TabsContent value="progress" className="space-y-6">
+              {/* Stats Dashboard */}
+              <StatsDashboard />
+
+              {/* Divider */}
+              <div className="flex items-center gap-3">
+                <div className="flex-1 h-px bg-white/10" />
+                <span className="text-xs text-slate-500">Programs</span>
+                <div className="flex-1 h-px bg-white/10" />
+              </div>
+
+              {/* Personalized Programs */}
               <PersonalizedPrograms
                 onSelectPattern={(pattern) => {
-                  setSelectedPattern(pattern);
-                  setPhase("inhale");
-                  setSequenceIndex(0);
-                  setTimeRemaining(
-                    pattern.sequence?.[0] ??
-                    pattern.durations.inhale ??
-                    4
-                  );
-                  setActiveTab("practice");
+                  handlePatternChange(pattern);
+                  setActiveTab("breathe");
                 }}
-                onStartProgram={() => setActiveTab("practice")}
+                onStartProgram={() => setActiveTab("breathe")}
               />
-            </TabsContent>
-            
-            <TabsContent value="custom">
-              <CustomPatternCreator onSavePattern={handleSaveCustomPattern} />
-            </TabsContent>
-            
-            <TabsContent value="stats">
-              <StatsDashboard />
             </TabsContent>
           </Tabs>
         ) : (
-          <>
+          <div className="flex flex-col items-center gap-4">
+            {/* AI Coach teaser for non-premium */}
+            <AICoachInput
+              isPremium={false}
+              onPatternSelect={handlePatternChange}
+            />
+
             <PatternSelector
               selectedPattern={selectedPattern}
-              onPatternChange={(newPattern) => {
-                setSelectedPattern(newPattern);
-                setPhase("inhale");
-                setSequenceIndex(0);
-                setTimeRemaining(
-                  newPattern.sequence?.[0] ??
-                  newPattern.durations.inhale ??
-                  4
-                );
-              }}
+              onPatternChange={handlePatternChange}
             />
-            
-
-            <Link
-              href="/premium"
-              className="flex items-center gap-1 text-sm text-amber-400 hover:text-amber-300 mt-2"
-            >
-              <Sparkles size={14} />
-              Unlock Premium Features
-            </Link>
-          </>
+          </div>
         )}
       </div>
 
+      {/* Breathing Circle - always visible */}
       <div className="h-[240px] sm:h-[300px] md:h-[400px] w-full flex items-center justify-center">
         <EnhancedBreathingCircle
           phase={phase}
@@ -327,39 +322,60 @@ export default function PracticePage() {
         />
       </div>
 
+      {/* Controls */}
       <div className="flex gap-4">
         <button
           className="px-5 py-2.5 sm:px-6 sm:py-3 bg-gradient-to-r from-pink-500 to-violet-500 text-white rounded-lg
-                     hover:from-pink-600 hover:to-violet-600 transition-all duration-300
-                     shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-base sm:text-lg"
+                     hover:from-pink-600 hover:to-violet-600 transition-all duration-200
+                     shadow-lg hover:shadow-xl text-base sm:text-lg
+                     focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:ring-offset-2"
           onClick={handlePlayPause}
+          aria-label={isPlaying ? "Stop breathing exercise" : "Start breathing exercise"}
         >
           {isPlaying ? "Stop" : "Start"}
         </button>
-        
+
         <button
           className="px-5 py-2.5 sm:px-6 sm:py-3 bg-gradient-to-r from-gray-500 to-gray-600 text-white rounded-lg
-                     hover:from-gray-600 hover:to-gray-700 transition-all duration-300
-                     shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-base sm:text-lg"
+                     hover:from-gray-600 hover:to-gray-700 transition-all duration-200
+                     shadow-lg hover:shadow-xl text-base sm:text-lg
+                     focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2"
           onClick={toggleMute}
+          aria-label={isMuted ? "Unmute background music" : "Mute background music"}
         >
           {isMuted ? "Unmute" : "Mute"}
         </button>
       </div>
 
       <BackgroundMusic isPlaying={isPlaying} isMuted={isMuted} phase={phase} />
-      
-      <div className="text-center text-sm text-gray-500 max-w-md">
-        <p>Each breathing transition is marked with a subtle vinyl record scratch sound, 
-        allowing you to follow the rhythm with your eyes closed for deeper immersion.</p>
-      </div>
-      
+
+      {/* Helper text */}
+      <p className="text-center text-sm text-slate-400 dark:text-slate-500 max-w-sm">
+        {isPlaying
+          ? "Follow the circle. Let your breath flow naturally."
+          : "Press Start when you're ready. Close your eyes if it helps."}
+      </p>
+
+      {/* Premium upsell for non-premium users */}
+      {!isPremium && (
+        <div className="mt-4 text-center">
+          <Link
+            href="/premium"
+            className="inline-flex items-center gap-1.5 text-sm text-amber-600 dark:text-amber-400
+                       hover:text-amber-700 dark:hover:text-amber-300 transition-colors"
+          >
+            <Sparkles size={14} />
+            <span>Explore premium features</span>
+          </Link>
+        </div>
+      )}
+
       <SocialLinks />
-      
-      {/* Support Button - Bottom Right */}
+
+      {/* Support Button */}
       <div className="fixed bottom-4 right-4">
         <SupportButton />
       </div>
     </div>
   );
-} 
+}

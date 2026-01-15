@@ -25,17 +25,17 @@ export function PatternSelector({
           );
           if (newPattern) onPatternChange(newPattern);
         }}
-        className="px-4 py-2 sm:px-6 sm:py-3 text-white rounded-lg
-                   border border-[#578FCA]/30 focus:outline-none focus:ring-2
-                   focus:ring-[#FF748B] appearance-none cursor-pointer
-                   hover:bg-[#3674B5]/80 transition-all duration-300 text-sm sm:text-base w-full max-w-[250px] sm:max-w-none"
-        style={{ backgroundColor: 'var(--color-primary, #3674B5)' }}
+        className="px-4 py-2 sm:px-6 sm:py-3 text-white rounded-lg bg-[#3674B5]
+                   border border-[#578FCA]/30 appearance-none cursor-pointer
+                   hover:bg-[#3674B5]/90 transition-all duration-200 text-sm sm:text-base
+                   w-full max-w-[250px] sm:max-w-none
+                   focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:ring-offset-2"
       >
         {patterns.map((pattern: Pattern) => (
           <option 
             key={pattern.name} 
             value={pattern.name} 
-            className="bg-gray-800 text-white dark:bg-gray-800 dark:text-white bg-slate-200 text-slate-800"
+            className="bg-slate-200 text-slate-800 dark:bg-gray-800 dark:text-white"
           >
             {pattern.name}
           </option>
@@ -54,8 +54,8 @@ export function PatternSelector({
         
         {showTooltip && (
           <>
-            <div 
-              className="fixed inset-0 z-20 backdrop-blur-sm bg-black/5" 
+            <div
+              className="fixed inset-0 z-20 bg-black/20 dark:bg-black/40"
               onClick={() => setShowTooltip(false)}
               aria-hidden="true"
             />
@@ -64,25 +64,32 @@ export function PatternSelector({
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.2 }}
-              className="absolute top-full mt-2 p-4 sm:p-5
-                       rounded-lg border border-slate-300/50 dark:border-white/10 
-                       text-sm sm:text-base w-72 sm:w-80 shadow-xl z-30
-                       bg-white/90 dark:bg-gray-800/90 backdrop-blur-md
+              className="fixed left-4 right-4 sm:absolute sm:left-1/2 sm:-translate-x-1/2 sm:right-auto
+                       top-1/2 sm:top-full -translate-y-1/2 sm:translate-y-0 sm:mt-3
+                       p-5 rounded-xl border border-slate-200 dark:border-white/10
+                       text-sm sm:text-base max-w-sm mx-auto shadow-xl z-30
+                       bg-white dark:bg-gray-800
                        text-slate-700 dark:text-white/90"
             >
-              <h4 className="font-semibold mb-2 text-slate-900 dark:text-white">
+              <h4 className="font-semibold mb-3 text-slate-900 dark:text-white">
                 {selectedPattern.name}
               </h4>
-              {selectedPattern.description.split(";").map((step, i) => (
-                <p key={i} className="mb-2 last:mb-0 leading-relaxed">
-                  {i+1}. {step.trim()}
-                </p>
-              ))}
-              <button 
+              <div className="space-y-2">
+                {selectedPattern.description.split(";").map((step, i) => (
+                  <p key={i} className="leading-relaxed text-slate-600 dark:text-slate-300">
+                    <span className="text-pink-500 font-medium mr-2">{i + 1}.</span>
+                    {step.trim()}
+                  </p>
+                ))}
+              </div>
+              <button
                 onClick={() => setShowTooltip(false)}
-                className="mt-3 text-xs text-pink-500 hover:text-pink-600 dark:text-pink-400 dark:hover:text-pink-300 font-medium"
+                className="mt-4 w-full py-2 text-sm font-medium text-slate-500 hover:text-slate-700
+                         dark:text-slate-400 dark:hover:text-slate-200 transition-colors
+                         border border-slate-200 dark:border-white/10 rounded-lg
+                         hover:bg-slate-50 dark:hover:bg-white/5"
               >
-                Close
+                Got it
               </button>
             </motion.div>
           </>

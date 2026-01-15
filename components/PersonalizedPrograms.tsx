@@ -211,34 +211,6 @@ export function PersonalizedPrograms({ onSelectPattern, onStartProgram }: Person
     onStartProgram();
   };
   
-  const _completeDay = () => {
-    if (!activeProgram) return;
-    
-    // Use the function here or remove it if not needed
-    console.log("Day completed");
-    
-    // Check if program is completed
-    const isCompleted = activeProgram.currentDay! >= activeProgram.days;
-    
-    // Update active program
-    const updatedProgram = {
-      ...activeProgram,
-      currentDay: isCompleted ? activeProgram.currentDay : activeProgram.currentDay! + 1,
-      completed: isCompleted
-    };
-    
-    // Save to localStorage
-    localStorage.setItem('breathBetterActiveProgram', JSON.stringify(updatedProgram));
-    
-    // Update state
-    setActiveProgram(updatedProgram);
-    
-    // Update programs list
-    setPrograms(programs.map(p => 
-      p.id === activeProgram.id ? updatedProgram : p
-    ));
-  };
-  
   const resetProgram = (programId: string) => {
     // Remove from localStorage
     localStorage.removeItem('breathBetterActiveProgram');

@@ -5,11 +5,10 @@ export function SocialLinks() {
         href="https://x.com/conorchepenik"
         target="_blank"
         rel="noopener noreferrer"
-        className="p-2 rounded-lg text-white
-                 hover:bg-[#578FCA]/30 hover:scale-110 hover:shadow-md hover:shadow-[#A1E3F9]/20
-                 transition-all duration-300 ease-in-out
-                 border border-[#A1E3F9]/20"
-        style={{ backgroundColor: 'rgba(54, 116, 181, 0.1)' }}
+        className="p-2 rounded-lg text-white bg-[#3674B5]/10
+                 hover:bg-[#578FCA]/30 hover:scale-105 transition-all duration-200
+                 border border-[#A1E3F9]/20
+                 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:ring-offset-2"
         aria-label="Follow on X (Twitter)"
       >
         <svg 
@@ -28,9 +27,9 @@ export function SocialLinks() {
         target="_blank"
         rel="noopener noreferrer"
         className="p-2 rounded-lg bg-slate-200/10 dark:bg-white/10 text-slate-900 dark:text-white
-                 hover:bg-slate-200/30 dark:hover:bg-white/30 hover:scale-110 hover:shadow-md hover:shadow-slate-400/20 dark:hover:shadow-white/20
-                 transition-all duration-300 ease-in-out
-                 border border-slate-200/10 dark:border-white/10"
+                 hover:bg-slate-200/30 dark:hover:bg-white/30 hover:scale-105
+                 transition-all duration-200 border border-slate-200/10 dark:border-white/10
+                 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:ring-offset-2"
         aria-label="View on GitHub"
       >
         <svg 

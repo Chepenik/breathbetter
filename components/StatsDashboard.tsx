@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { BarChart, Calendar, Clock, Download, Award } from "lucide-react";
+import { BarChart, Calendar, Clock, Award } from "lucide-react";
 import { isPremiumActive } from "@/lib/premium";
 
 interface BreathingSession {
@@ -104,71 +104,27 @@ export function StatsDashboard() {
     setFavoritePattern(favorite);
   };
   
-  const exportSessionsCSV = () => {
-    if (sessions.length === 0) return;
-    
-    // Create CSV content
-    const headers = ["Date", "Pattern", "Duration (seconds)", "Completed"];
-    const csvRows = [headers.join(",")];
-    
-    sessions.forEach(session => {
-      const row = [
-        session.date,
-        `"${session.pattern}"`, // Quote pattern name to handle commas
-        session.duration,
-        session.completed ? "Yes" : "No"
-      ];
-      csvRows.push(row.join(","));
-    });
-    
-    const csvContent = csvRows.join("\n");
-    
-    // Create download link
-    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.setAttribute("href", url);
-    link.setAttribute("download", "breath-better-sessions.csv");
-    link.style.visibility = "hidden";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-  
   if (!isPremium) {
     return (
       <div className="bg-gradient-to-r from-amber-500/10 to-yellow-500/10 border border-amber-500/20 rounded-lg p-4 text-center">
         <h3 className="text-lg font-medium text-amber-500 mb-2">Premium Feature</h3>
         <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">
-          Track your breathing practice with detailed statistics and insights.
+          Unlock detailed statistics and track your breathing practice progress.
         </p>
         <a
           href="/premium"
-          className="inline-block px-4 py-2 bg-gradient-to-r from-amber-400 to-yellow-600 text-white text-sm rounded-lg
-                   hover:from-amber-500 hover:to-yellow-700 transition-all duration-300"
+          className="inline-block px-4 py-2 bg-gradient-to-r from-amber-400 to-yellow-600 text-white rounded-lg
+                   hover:from-amber-500 hover:to-yellow-700 transition-all duration-300 text-sm"
         >
-          Unlock Premium
+          Upgrade to Premium
         </a>
       </div>
     );
   }
   
   return (
-    <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-4">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-medium">Your Breathing Stats</h3>
-        
-        <button
-          onClick={exportSessionsCSV}
-          disabled={sessions.length === 0}
-          className={`flex items-center gap-1 text-xs px-2 py-1 rounded-md
-                    ${sessions.length === 0 
-                      ? 'bg-gray-500/20 text-gray-400 cursor-not-allowed' 
-                      : 'bg-amber-500/20 text-amber-400 hover:bg-amber-500/30'}`}
-        >
-          <Download size={14} /> Export CSV
-        </button>
-      </div>
+    <div className="space-y-4">
+      <h3 className="text-lg font-medium mb-2">Your Breathing Stats</h3>
       
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
         <StatCard 
@@ -216,16 +172,24 @@ export function StatsDashboard() {
               ))}
             </tbody>
           </table>
-          
+
           {sessions.length > 5 && (
             <div className="text-center text-xs text-slate-500 mt-2">
-              Showing 5 of {sessions.length} sessions. Export CSV for full history.
+              Showing 5 of {sessions.length} sessions
             </div>
           )}
         </div>
       ) : (
-        <div className="text-center py-6 text-slate-500">
-          No sessions recorded yet. Start practicing to build your stats!
+        <div className="text-center py-8 px-4">
+          <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-amber-500/10 flex items-center justify-center">
+            <Calendar className="w-6 h-6 text-amber-400" />
+          </div>
+          <p className="text-slate-600 dark:text-slate-400 mb-1">
+            Your journey starts here
+          </p>
+          <p className="text-sm text-slate-500 dark:text-slate-500">
+            Complete your first session to start tracking your progress
+          </p>
         </div>
       )}
     </div>

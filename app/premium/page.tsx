@@ -3,62 +3,36 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowLeft, Check, Download, BarChart3, Palette, Calendar, Sliders } from "lucide-react";
+import { ArrowLeft, Check, BarChart3, Palette, Calendar, Sliders } from "lucide-react";
 import { SocialLinks } from "@/components/SocialLinks";
 import { SupportButton } from "@/components/SupportButton";
-import { isPremiumActive, activatePremium, getPremiumExpiryDate, deactivatePremium } from "@/lib/premium";
+import { isPremiumActive, activatePremium, deactivatePremium } from "@/lib/premium";
+import { EnhancedBreathingCircle } from "@/components/EnhancedBreathingCircle";
 
 export default function PremiumPage() {
-  const [premiumCode, _setPremiumCode] = useState("");
   const [isPremium, setIsPremium] = useState(false);
-  const [_expiryDate, setExpiryDate] = useState<Date | null>(null);
-  const [activationSuccess, setActivationSuccess] = useState(false);
   const [deactivationSuccess, setDeactivationSuccess] = useState(false);
-  
+
   // Check premium status on load
   useEffect(() => {
     setIsPremium(isPremiumActive());
-    setExpiryDate(getPremiumExpiryDate());
   }, []);
-  
-  // Unused but kept for future use
-  const _handleActivate = () => {
-    // Implementation
-  };
-  
-  const handleActivate = () => {
-    if (premiumCode.trim() === "") return;
-    
-    const success = activatePremium(premiumCode);
-    if (success) {
-      setActivationSuccess(true);
-      setIsPremium(true);
-      setExpiryDate(getPremiumExpiryDate());
-      
-      // Reset after 3 seconds
-      setTimeout(() => {
-        setActivationSuccess(false);
-      }, 3000);
-    }
-  };
-  
+
   const handleDeactivate = () => {
     deactivatePremium();
     setIsPremium(false);
-    setExpiryDate(null);
     setDeactivationSuccess(true);
-    
+
     // Redirect to practice page after a short delay
     setTimeout(() => {
       window.location.href = "/practice";
     }, 1500);
   };
-  
+
   // For development only - quick activation without code
   const handleDevActivate = () => {
     activatePremium("DEV_CODE");
     setIsPremium(true);
-    setExpiryDate(getPremiumExpiryDate());
     window.location.href = "/practice";
   };
   
@@ -148,13 +122,6 @@ export default function PremiumPage() {
               )}
             </div>
             
-            {activationSuccess && (
-              <div className="mt-4 p-3 bg-green-500/20 rounded-lg text-center">
-                <p className="text-green-600 dark:text-green-400">
-                  Premium activated successfully!
-                </p>
-              </div>
-            )}
           </div>
         )}
         
@@ -169,7 +136,8 @@ export default function PremiumPage() {
           <FeatureCard 
             icon={<Palette className="w-6 h-6 text-amber-500" />}
             title="Advanced Visualizations"
-            description="Nature-inspired animations, mandalas, customizable colors, and 3D visualizations to enhance your practice."
+            description="Immersive 3D geometric animations, mandalas, and customizable colors that respond to your breathing rhythm."
+            highlight={true}
           />
           
           <FeatureCard 
@@ -183,6 +151,21 @@ export default function PremiumPage() {
             title="Custom Pattern Creator"
             description="Create and save your own breathing patterns with custom durations for each phase."
           />
+        </div>
+        
+        <div className="mb-12 p-6 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl">
+          <h3 className="text-xl font-semibold mb-4 text-center">Premium Visualization Preview</h3>
+          <div className="h-[200px] sm:h-[250px] md:h-[300px] w-full">
+            <EnhancedBreathingCircle
+              phase="inhale"
+              timeRemaining={4}
+              visualizationType="3d"
+              primaryColor="#F59E0B" // Amber color
+            />
+          </div>
+          <p className="text-center text-sm text-slate-500 mt-4">
+            Experience immersive breathing visualizations with premium features
+          </p>
         </div>
         
         <div className="text-center text-sm text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
@@ -202,20 +185,43 @@ export default function PremiumPage() {
   );
 }
 
-function FeatureCard({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) {
+function FeatureCard({ 
+  icon, 
+  title, 
+  description, 
+  highlight = false 
+}: { 
+  icon: React.ReactNode, 
+  title: string, 
+  description: string,
+  highlight?: boolean 
+}) {
   return (
     <motion.div 
-      className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6"
+      className={`backdrop-blur-sm border rounded-xl p-6 ${
+        highlight 
+          ? "bg-gradient-to-br from-amber-500/20 to-yellow-500/5 border-amber-500/30" 
+          : "bg-white/5 border-white/10"
+      }`}
       whileHover={{ y: -5, boxShadow: "0 10px 30px -15px rgba(0,0,0,0.3)" }}
       transition={{ duration: 0.2 }}
     >
       <div className="flex items-start gap-4">
-        <div className="bg-amber-500/10 rounded-lg p-3">
+        <div className={`rounded-lg p-3 ${
+          highlight ? "bg-amber-500/20" : "bg-amber-500/10"
+        }`}>
           {icon}
         </div>
         <div>
-          <h3 className="text-lg font-semibold mb-2">{title}</h3>
+          <h3 className={`text-lg font-semibold mb-2 ${
+            highlight ? "text-amber-500" : ""
+          }`}>{title}</h3>
           <p className="text-sm text-slate-600 dark:text-slate-400">{description}</p>
+          {highlight && (
+            <span className="inline-block mt-2 text-xs font-medium text-amber-500 border border-amber-500/30 rounded-full px-2 py-0.5">
+              Most Popular
+            </span>
+          )}
         </div>
       </div>
     </motion.div>

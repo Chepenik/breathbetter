@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { ThreeDVisualization } from '@/components/ThreeDVisualization';
 import { Phase } from '@/lib/patterns';
